@@ -69,3 +69,22 @@ edit `src/services/mailer/mailer.service.ts` `src/services/mailer/mailer.hooks.t
 ```bash
 npm install feathers-authentication-management-ts --save
 ```
+
+### Generate AuthManagement service
+
+```bash
+$ feathers generate service
+? What kind of service is it? A custom service
+? What is the name of the service? AuthManagement
+? Which path should the service be registered on? /auth-management
+? Does the service require authentication? Yes
+   create src/services/auth-management/auth-management.service.ts
+    force src/services/index.ts
+   create src/services/auth-management/auth-management.class.ts
+   create src/services/auth-management/auth-management.hooks.ts
+   create test/services/auth-management.test.ts
+```
+
+edit `src/services/auth-management/auth-management.service.ts` `src/services/auth-management/auth-management.hooks.ts` delete `src/services/auth-management/auth-management.class.ts`
+
+add `src/services/auth-management/notifier.ts`

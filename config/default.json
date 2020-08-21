@@ -29,12 +29,16 @@
     }
   },
   "sqlite": "sqlite://feathers_authentication_management_ts_example.sqlite",
-  "mailerSMTP": {
+  "mailer": {
     "host": "SMTP_HOST",
     "secure": "SMTP_SECURE",
     "auth": {
       "user": "SMTP_USER",
       "pass": "SMTP_PASS"
     }
+  },
+  "authManager": {
+    "baseURL": "",
+    "emailFrom": ""
   }
 }

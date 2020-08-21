@@ -16,18 +16,18 @@ declare module '../../declarations' {
 }
 
 export default function (app: Application): void {
-  let mailerSMTP = app.get('mailerSMTP');
+  let mailerConf = app.get('mailer');
 
-  mailerSMTP = {
-    host: mailerSMTP.host === 'SMTP_HOST' ? 'localhost' : mailerSMTP.host,
-    secure: mailerSMTP.secure === 'SMTP_SECURE' ? false : mailerSMTP.secure,
+  mailerConf = {
+    host: mailerConf.host === 'SMTP_HOST' ? 'localhost' : mailerConf.host,
+    secure: mailerConf.secure === 'SMTP_SECURE' ? false : mailerConf.secure,
     auth:
-      !mailerSMTP.auth || mailerSMTP.auth.user === 'SMTP_USER'
+      !mailerConf.auth || mailerConf.auth.user === 'SMTP_USER'
         ? undefined
-        : mailerSMTP.auth,
+        : mailerConf.auth,
   };
 
-  app.use('/mailer', FeathersMailer(smtpTransport(mailerSMTP)));
+  app.use('/mailer', FeathersMailer(smtpTransport(mailerConf)));
 
   // Get our initialized service so that we can register hooks
   const service = app.service('mailer');
