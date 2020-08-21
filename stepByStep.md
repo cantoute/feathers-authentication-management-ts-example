@@ -1,5 +1,10 @@
 # Step by step
 
+- [Init](#init)
+- [Update User model](#update-user-model)
+- [Create service Mailer](#create-service-mailer)
+- [Create service AuthManagement](#create-service-authmanagement)
+
 ## Init
 
 ```text
@@ -60,7 +65,7 @@ feathers g service
    create test/services/mailer.test.ts
 ```
 
-edit `src/services/mailer/mailer.service.ts` `src/services/mailer/mailer.hooks.ts` and delete `src/services/mailer/mailer.class.ts`
+edit [`src/services/mailer/mailer.service.ts`](./src/services/mailer/mailer.service.ts) [`src/services/mailer/mailer.hooks.ts`](./src/services/mailer/mailer.hooks.ts) and delete `src/services/mailer/mailer.class.ts`
 
 ## Create service AuthManagement
 
@@ -85,8 +90,8 @@ $ feathers generate service
    create test/services/auth-management.test.ts
 ```
 
-edit `src/services/auth-management/auth-management.service.ts` `src/services/auth-management/auth-management.hooks.ts` delete `src/services/auth-management/auth-management.class.ts`
+edit [`src/services/auth-management/auth-management.service.ts`](./src/services/auth-management/auth-management.service.ts) [`src/services/auth-management/auth-management.hooks.ts`](./src/services/auth-management/auth-management.hooks.ts) delete `src/services/auth-management/auth-management.class.ts`
 
-add `src/services/auth-management/notifier.ts`
+add [`src/services/auth-management/notifier.ts`](./src/services/auth-management/notifier.ts)
 
-edit `src/services/users/users.hooks.ts`
+edit [`src/services/users/users.hooks.ts`](./src/services/users/users.hooks.ts)
