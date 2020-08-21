@@ -2,6 +2,8 @@
 
 > Show case of sign up verification, forgotten password reset, and other capabilities to local feathers-authentication
 
+[Step by step](./stepByStep.md)
+
 ## About
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.

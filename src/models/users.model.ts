@@ -6,26 +6,53 @@ import { HookReturn } from 'sequelize/types/lib/hooks';
 
 export default function (app: Application): typeof Model {
   const sequelizeClient: Sequelize = app.get('sequelizeClient');
-  const users = sequelizeClient.define('users', {
-  
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+  const users = sequelizeClient.define(
+    'users',
+    {
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      verifyToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      verifyShortToken: {
+        type: DataTypes.STRING,
+      },
+      verifyExpires: {
+        type: DataTypes.DATE,
+      }, // or a long integer
+      verifyChanges: {
+        type: DataTypes.TEXT,
+      }, // an object (key-value map), e.g. { field: "value" }
+      resetToken: {
+        type: DataTypes.STRING,
+      },
+      resetShortToken: {
+        type: DataTypes.STRING,
+      },
+      resetExpires: {
+        type: DataTypes.DATE,
+      },
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-  
-  
-  }, {
-    hooks: {
-      beforeCount(options: any): HookReturn {
-        options.raw = true;
-      }
+    {
+      hooks: {
+        beforeCount(options: any): HookReturn {
+          options.raw = true;
+        },
+      },
     }
-  });
+  );
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (users as any).associate = function (models: any): void {
