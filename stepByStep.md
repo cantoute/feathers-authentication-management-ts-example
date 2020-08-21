@@ -88,3 +88,5 @@ $ feathers generate service
 edit `src/services/auth-management/auth-management.service.ts` `src/services/auth-management/auth-management.hooks.ts` delete `src/services/auth-management/auth-management.class.ts`
 
 add `src/services/auth-management/notifier.ts`
+
+edit `src/services/users/users.hooks.ts`
