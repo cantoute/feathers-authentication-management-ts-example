@@ -19,7 +19,7 @@ $ feathers g app
 ? What is the database connection string? sqlite://feathers_authentication_management_ts_example.sqlite
 ```
 
-## User model
+## Update User model
 
 If using models (in this example `sequelize` with `sqlite`) we have to update the model
 
@@ -37,3 +37,35 @@ If using models (in this example `sequelize` with `sqlite`) we have to update th
 ```
 
 Q: using sqlite3 should verifyChanges be text?
+
+## Create service Mailer
+
+### Install dependencies
+
+```bash
+npm install feathers-mailer nodemailer-smtp-transport feathers-hooks-common --save
+npm install @types/nodemailer-smtp-transport --save-dev
+```
+
+```bash
+feathers g service
+? What kind of service is it? A custom service
+? What is the name of the service? Mailer
+? Which path should the service be registered on? /mailer
+? Does the service require authentication? Yes
+   create src/services/mailer/mailer.service.ts
+    force src/services/index.ts
+   create src/services/mailer/mailer.class.ts
+   create src/services/mailer/mailer.hooks.ts
+   create test/services/mailer.test.ts
+```
+
+edit `src/services/mailer/mailer.service.ts` `src/services/mailer/mailer.hooks.ts` and delete `src/services/mailer/mailer.class.ts`
+
+## Create service AuthManagement
+
+### Install feathers-authentication-management-ts
+
+```bash
+npm install feathers-authentication-management-ts --save
+```

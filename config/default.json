@@ -28,5 +28,13 @@
       "passwordField": "password"
     }
   },
-  "sqlite": "sqlite://feathers_authentication_management_ts_example.sqlite"
+  "sqlite": "sqlite://feathers_authentication_management_ts_example.sqlite",
+  "mailerSMTP": {
+    "host": "SMTP_HOST",
+    "secure": "SMTP_SECURE",
+    "auth": {
+      "user": "SMTP_USER",
+      "pass": "SMTP_PASS"
+    }
+  }
 }
