@@ -33,7 +33,18 @@ export default function (app: Application): typeof Model {
         type: DataTypes.DATE,
       }, // or a long integer
       verifyChanges: {
+        /**
+         * on database that supports it ie: Postgres
+         * type: DataTypes.JSON
+         * on others, we map it to text
+         */
         type: DataTypes.TEXT,
+        get: function () {
+          return JSON.parse(this.getDataValue('verifyChanges'));
+        },
+        set: function (value) {
+          return this.setDataValue('verifyChanges', JSON.stringify(value));
+        },
       }, // an object (key-value map), e.g. { field: "value" }
       resetToken: {
         type: DataTypes.STRING,

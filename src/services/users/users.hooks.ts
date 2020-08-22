@@ -57,12 +57,9 @@ export default {
     find: [],
     get: [],
     create: [
-      // (context: HookContext) => {
-      //   notifier(context.app)(
-      //     'resendVerifySignup',
-      //     context.result
-      //   );
-      // },
+      (context: HookContext) => {
+        notifier(context.app)('verifySignup', context.result);
+      },
       hooks.removeVerification(),
     ],
     update: [],

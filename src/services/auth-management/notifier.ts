@@ -1,10 +1,10 @@
-import { Application } from '../../declarations';
 import logger from '../../logger';
 import {
   Types,
   Notifier,
   NotifierOptions,
 } from 'feathers-authentication-management-ts';
+import { Application } from '@feathersjs/feathers';
 
 export type NotifierLinkType = 'reset' | 'verify' | 'verifyChanges';
 
@@ -25,7 +25,7 @@ export default (app: Application): Notifier => {
   const emailFrom = authManagerConf.emailFrom || 'from@example.com';
 
   const getLink = (linkType: NotifierLinkType, token: string): string => {
-    return `${authManagerConf.baseURL}/${linkType}?token=${token}`;
+    return `${authManagerConf.baseURL}/authManagement/${linkType}?token=${token}`;
   };
 
   const sendEmail = (email: Email): Promise<void> => {
