@@ -18,6 +18,7 @@ export default function (app: Application): void {
   app.configure(
     authManagement({
       skipIsVerifiedCheck: true,
+      service: 'users',
       notifier: notifier(app),
     })
   );
