@@ -22,7 +22,28 @@ export default {
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
     create: [hashPassword('password'), hooks.addVerification()],
-    update: [hashPassword('password'), authenticate('jwt')],
+    update: [
+      /**
+       * NOTE: authentication-management has password hashing built in.
+       * To prevent double hashing our password we are only hashing it for external calls.
+       */
+      iff(
+        isProvider('external'),
+        preventChanges(
+          true,
+          'isVerified',
+          'verifyToken',
+          'verifyShortToken',
+          'verifyExpires',
+          'verifyChanges',
+          'resetToken',
+          'resetShortToken',
+          'resetExpires'
+        ),
+        hashPassword('password'),
+        authenticate('jwt')
+      ),
+    ],
     patch: [
       /**
        * NOTE: authentication-management has password hashing built in.
