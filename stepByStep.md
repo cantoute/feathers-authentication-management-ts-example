@@ -41,7 +41,7 @@ If using models (in this example `sequelize` with `sqlite`) we have to update th
 }
 ```
 
-Q: using sqlite3 should verifyChanges be text?
+See users.verifyChanges get/set for storage of object type converted to text [users.models.ts](src/models/users.model.ts#L35)
 
 ## Create service Mailer
 
