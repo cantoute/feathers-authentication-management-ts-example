@@ -10,8 +10,20 @@ import path from 'path';
 import * as Mustache from 'mustache';
 
 const mailTemplates = {
-  verifyEmail: fs.readFileSync(
-    path.join(__dirname, 'mail-verify-email.mustache'),
+  verifySignup: fs.readFileSync(
+    path.join(__dirname, 'mail-verify-signup.mustache'),
+    'utf8'
+  ),
+  resetPwd: fs.readFileSync(
+    path.join(__dirname, 'mail-reset-pwd.mustache'),
+    'utf8'
+  ),
+  passwordChange: fs.readFileSync(
+    path.join(__dirname, 'mail-password-change.mustache'),
+    'utf8'
+  ),
+  identityChange: fs.readFileSync(
+    path.join(__dirname, 'mail-identity-change.mustache'),
     'utf8'
   ),
 };
@@ -87,8 +99,8 @@ export default (app: Application): { notifier: Notifier } => {
         email = {
           from: emailFrom,
           to: <string>user.email,
-          subject: 'Please confirm Signup',
-          html: Mustache.render(mailTemplates.verifyEmail, {
+          subject: 'Confirm Signup',
+          html: Mustache.render(mailTemplates.verifySignup, {
             tokenLink,
             mailCSS,
           }),
@@ -96,24 +108,17 @@ export default (app: Application): { notifier: Notifier } => {
         return sendEmail(email);
         break;
 
+      case 'resetPwd':
       case 'sendResetPwd':
         tokenLink = getLink('reset', user.resetToken);
         email = {
           from: emailFrom,
           to: <string>user.email,
           subject: 'Password reset',
-          html: tokenLink,
-        };
-        return sendEmail(email);
-        break;
-
-      case 'resetPwd':
-        tokenLink = getLink('reset', user.resetToken);
-        email = {
-          from: emailFrom,
-          to: <string>user.email,
-          subject: 'Password reset',
-          html: tokenLink,
+          html: Mustache.render(mailTemplates.resetPwd, {
+            tokenLink,
+            mailCSS,
+          }),
         };
         return sendEmail(email);
         break;
@@ -122,8 +127,11 @@ export default (app: Application): { notifier: Notifier } => {
         email = {
           from: emailFrom,
           to: <string>user.email,
-          subject: 'Password reset',
-          html: `Password changed`,
+          subject: 'Password changed',
+          html: Mustache.render(mailTemplates.identityChange, {
+            tokenLink,
+            mailCSS,
+          }),
         };
         return sendEmail(email);
         break;
@@ -134,7 +142,10 @@ export default (app: Application): { notifier: Notifier } => {
           from: emailFrom,
           to: <string>user.email,
           subject: 'Identity changed',
-          html: tokenLink,
+          html: Mustache.render(mailTemplates.identityChange, {
+            tokenLink,
+            mailCSS,
+          }),
         };
         return sendEmail(email);
         break;
