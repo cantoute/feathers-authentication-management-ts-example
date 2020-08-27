@@ -38,7 +38,7 @@
     }
   },
   "authManager": {
-    "baseURL": "",
+    "clientURL": "",
     "emailFrom": ""
   }
 }

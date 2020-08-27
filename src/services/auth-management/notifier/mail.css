@@ -1,0 +1,8 @@
+a.btn {
+  border-radius: 4px;
+  display: inline-block;
+  background: green;
+  color: white;
+  padding: 2px 4px;
+  text-decoration: none;
+}

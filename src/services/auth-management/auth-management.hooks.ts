@@ -6,11 +6,8 @@ import { HookContext } from '@feathersjs/feathers';
 
 const { authenticate } = authentication.hooks;
 
-const isAction = (...params: Types[]): SyncContextFunction<boolean> => {
-  // const args = Array.from(params);
-  // return (context: HookContext): boolean => args.includes(context.data.action);
-  return (context: HookContext): boolean =>
-    params.includes(context.data.action);
+const isAction = (...args: Types[]): SyncContextFunction<boolean> => {
+  return (context: HookContext): boolean => args.includes(context.data.action);
 };
 
 export default {

@@ -1,12 +1,39 @@
-import logger from '../../logger';
+import logger from '../../../logger';
 import {
   Types,
   Notifier,
   NotifierOptions,
 } from 'feathers-authentication-management-ts';
 import { Application } from '@feathersjs/feathers';
+import fs from 'fs';
+import path from 'path';
+import * as Mustache from 'mustache';
 
-export type NotifierLinkType = 'reset' | 'verify' | 'verifyChanges';
+const mailTemplates = {
+  verifyEmail: fs.readFileSync(
+    path.join(__dirname, 'mail-verify-email.mustache'),
+    'utf8'
+  ),
+};
+
+const mailCSS = fs.readFileSync(path.join(__dirname, 'mail.css'), 'utf8');
+
+// export type NotifierLinkType = 'reset' | 'verify' | 'verifyChanges';
+
+export const stringLitArray = <L extends string>(arr: L[]) => arr;
+
+export const notifierLinkTypes = stringLitArray([
+  'reset',
+  'verify',
+  'verifyChanges',
+]);
+export type NotifierLinkType = typeof notifierLinkTypes[number];
+export const isNotifierLinkType = (x: any): x is NotifierLinkType =>
+  notifierLinkTypes.includes(x);
+
+// export enum NotifierLinkType = {
+//   Reset: 'reset',
+// }
 
 export type Email = {
   from: string;
@@ -15,53 +42,56 @@ export type Email = {
   html: string;
 };
 
-export default (app: Application): Notifier => {
+export default (app: Application): { notifier: Notifier } => {
   let authManagerConf = app.get('authManager');
 
-  authManagerConf.baseURL = authManagerConf.baseURL
-    ? authManagerConf.baseURL
-    : `http://${app.get('host')}:${app.get('port')}`;
+  // authManagerConf.clientURL = authManagerConf.clientURL
+  //   ? authManagerConf.clientURL
+  //   : `http://${app.get('host')}:${app.get('port')}/authManagementClient`;
 
   const emailFrom = authManagerConf.emailFrom || 'from@example.com';
 
-  const getLink = (linkType: NotifierLinkType, token: string): string => {
-    return `${authManagerConf.baseURL}/authManagement/${linkType}?token=${token}`;
+  const getLink = (
+    linkType: NotifierLinkType,
+    token: string,
+    email: string | undefined = undefined
+  ): string => {
+    return `${authManagerConf.clientURL}/${linkType}?token=${token}${
+      email ? `&email=${encodeURI(email)}` : ''
+    }`;
   };
 
   const sendEmail = (email: Email): Promise<void> => {
     return app
       .service('mailer')
       .create(email)
-      .then(function (result: any) {
-        logger.info('Sent email: %o', result);
+      .then((result: any) => {
+        logger.info('Sent email: %O', result);
       })
       .catch((error: any) => {
-        logger.error('Error sending email: %o', error);
+        logger.error('Error sending email: %O', error);
       });
   };
 
-  return (type: Types, user: any, notifierOptions: NotifierOptions) => {
+  const notifier = (
+    type: Types,
+    user: any,
+    notifierOptions: NotifierOptions
+  ) => {
     let tokenLink;
     let email;
     switch (type) {
-      case 'resendVerifySignup': //sending the user the verification email
-        tokenLink = getLink('verify', user.verifyToken);
-        email = {
-          from: emailFrom,
-          to: <string>user.email,
-          subject: 'Verify Signup',
-          html: tokenLink,
-        };
-        return sendEmail(email);
-        break;
-
       case 'verifySignup': // confirming verification
+      case 'resendVerifySignup':
         tokenLink = getLink('verify', user.verifyToken);
         email = {
           from: emailFrom,
           to: <string>user.email,
-          subject: 'Confirm Signup',
-          html: 'Thanks for verifying your email',
+          subject: 'Please confirm Signup',
+          html: Mustache.render(mailTemplates.verifyEmail, {
+            tokenLink,
+            mailCSS,
+          }),
         };
         return sendEmail(email);
         break;
@@ -113,4 +143,6 @@ export default (app: Application): Notifier => {
         break;
     }
   };
+
+  return { notifier };
 };

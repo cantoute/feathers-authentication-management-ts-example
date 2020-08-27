@@ -3,15 +3,15 @@ import { ServiceAddons } from '@feathersjs/feathers';
 import { Application } from '../../declarations';
 import hooks from './mailer.hooks';
 
-// import FeathersMailer from 'feathers-mailer';
-const FeathersMailer = require('feathers-mailer');
+// import Mailer from 'feathers-mailer';
+const Mailer = require('feathers-mailer');
 
 import smtpTransport from 'nodemailer-smtp-transport';
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    mailer: typeof FeathersMailer & ServiceAddons<any>;
+    mailer: typeof Mailer & ServiceAddons<any>;
   }
 }
 
@@ -27,7 +27,7 @@ export default function (app: Application): void {
         : mailerConf.auth,
   };
 
-  app.use('/mailer', FeathersMailer(smtpTransport(mailerConf)));
+  app.use('/mailer', Mailer(smtpTransport(mailerConf)));
 
   // Get our initialized service so that we can register hooks
   const service = app.service('mailer');

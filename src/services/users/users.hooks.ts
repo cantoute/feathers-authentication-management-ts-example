@@ -79,7 +79,7 @@ export default {
     get: [],
     create: [
       (context: HookContext) => {
-        notifier(context.app)('verifySignup', context.result);
+        notifier(context.app).notifier('verifySignup', context.result);
       },
       hooks.removeVerification(),
     ],
